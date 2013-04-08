@@ -204,8 +204,10 @@ def main(argv=None):
 
     # build the RPM
     if not dont_build:
-        code,_,_ = run('rpmbuild --define "_rpmdir ." --define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" -ba %s' % specfile.name, capture_output=build_output)
-    else:
-        code = 0
+        code, _, _ = run(
+            'rpmbuild -ba %s --define "_rpmdir ." --define '
+            '"_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm"' % specfile.name, 
+            capture_output=build_output,
+        )
+        raise SystemExit, code
 
-    raise SystemExit, code
